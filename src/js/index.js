@@ -1,7 +1,5 @@
-import '../scss/styles.scss';
+import '../scss/style.scss';
 import * as bootstrap from 'bootstrap';
-
-// npm i --save bootstrap @popperjs/core
 
 const form = document.querySelector('form');
 const needingUrl = form.addEventListener('submit', (e) => {

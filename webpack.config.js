@@ -9,7 +9,7 @@ const isProduction = process.env.NODE_ENV == 'production';
 const config = {
     entry: './src/js/index.js',
     output: {
-        path: path.resolve(__dirname),
+        path: path.resolve(__dirname, 'public'),
         filename: 'index.js',
     },
     devServer: {

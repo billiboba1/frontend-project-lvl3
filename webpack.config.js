@@ -9,11 +9,13 @@ const isProduction = process.env.NODE_ENV == 'production';
 const config = {
     entry: './src/js/index.js',
     output: {
-        path: path.resolve(__dirname, 'index.html'),
+        path: path.resolve(__dirname),
+        filename: 'index.js',
     },
     devServer: {
         open: true,
         host: 'localhost',
+        hot: true,
     },
     plugins: [
         new HtmlWebpackPlugin({

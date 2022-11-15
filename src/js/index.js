@@ -9,24 +9,26 @@ const state = {
 };
 
 const form = document.querySelector('.rss-form');
-const watchedState = onChange(state, (value) => {
+const watchedState = onChange(state, (previousValue, value) => {
   validation(value)
     .then((result) => {
-      const newEl = document.createElement('p');
-      newEl.innerHTML = value;
-      console.log('success');
-      document.body.appendChild(newEl);
-    })
-    .catch((e) => {
-      console.log(e);
-      const input = document.querySelector('input');
-      input.classList.add('border', 'border-danger');
-      console.log(input.parentNode.innerHTML);
+      if (result) {
+        const newEl = document.createElement('p');
+        newEl.innerHTML = value;
+        console.log('success', value);
+        document.body.appendChild(newEl);
+        const input = document.querySelector('input');
+        input.classList.remove('border', 'border-danger');
+      } else {
+        const input = document.querySelector('input');
+        input.classList.add('border', 'border-danger');
+        console.log(input.parentNode.innerHTML);
+      }
     });
 });
 const validation = (string) => {
   const scheme = yup.string().url();
-  return scheme.validate(string);
+  return scheme.isValid(string);
 };
 form.addEventListener('submit', (e) => {
   e.preventDefault();

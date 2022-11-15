@@ -1,11 +1,36 @@
 import '../scss/style.scss';
 import * as bootstrap from 'bootstrap';
+import onChange from 'on-change';
+import * as yup from 'yup';
 
-const form = document.querySelector('form');
-const needingUrl = form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    console.log(formData);
-    return formData;
+const state = {
+  url: '',
+  error: '',
+};
+
+const form = document.querySelector('.rss-form');
+const watchedState = onChange(state, (value) => {
+  validation(value)
+    .then((result) => {
+      const newEl = document.createElement('p');
+      newEl.innerHTML = value;
+      console.log('success');
+      document.body.appendChild(newEl);
+    })
+    .catch((e) => {
+      console.log(e);
+      const input = document.querySelector('input');
+      input.classList.add('border', 'border-danger');
+      console.log(input.parentNode.innerHTML);
+    });
+});
+const validation = (string) => {
+  const scheme = yup.string().url();
+  return scheme.validate(string);
+};
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  watchedState.url = formData.get('text');
 });
 

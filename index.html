@@ -3,23 +3,22 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap w/ Webpack</title>
-    <script defer src="./src/js/index.js"></script>
+    <title>RSS</title>
   </head>
   <body>
     <div class="container py-4 px-3 mx-auto">
       <h1>Write RSS</h1>
-      <form action="submit" class="rss-form">
+      <form class="rss-form">
         <div class="row">
           <div class="col">
-            <input type="text" placeholder="ссылка RSS">
+            <input name="text" type="text" focus placeholder="ссылка RSS">
           </div>
           <div class="col">
-            <button class="btn btn-primary">Add</button>
+            <button class="btn btn-primary">ADD URL</button>
           </div>
         </div>
       </form>
     </div>
-    <script src="./main.js"></script>
+    <script defer src="/src/js/index.js"></script>
   </body>
 </html>

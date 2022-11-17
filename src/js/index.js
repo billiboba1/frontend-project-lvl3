@@ -5,19 +5,20 @@ import * as yup from 'yup';
 import build from './build.js';
 
 const state = {
-  url: '',
+  posts: [],
   error: '',
+  innerPosts: [],
 };
 
 build();
 
 const form = document.querySelector('.rss-form');
 const watchedState = onChange(state, (previousValue, value) => {
-  validation(value)
+  validation(value[0])
     .then((result) => {
       if (result) {
         const newEl = document.createElement('p');
-        newEl.innerHTML = value;
+        newEl.innerHTML = value[0];
         document.body.appendChild(newEl);
         const input = document.querySelector('input');
         input.classList.remove('border', 'border-danger');
@@ -34,5 +35,10 @@ const validation = (string) => {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
-  watchedState.url = formData.get('text');
+  if (!state.posts.includes(formData.get('text'))) {
+    watchedState.posts.unshift(formData.get('text'));
+  }
+  else {
+    watchedState.posts.unshift('copy');
+  }
 });

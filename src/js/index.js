@@ -3,12 +3,14 @@ import * as bootstrap from 'bootstrap';
 import onChange from 'on-change';
 import * as yup from 'yup';
 import build from './build.js';
+import parse from './parse.js';
 
 const state = {
   posts: [],
   error: '',
   innerPosts: [],
 };
+
 
 build();
 
@@ -17,11 +19,12 @@ const watchedState = onChange(state, (previousValue, value) => {
   validation(value[0])
     .then((result) => {
       if (result) {
-        const newEl = document.createElement('p');
-        newEl.innerHTML = value[0];
-        document.body.appendChild(newEl);
         const input = document.querySelector('input');
         input.classList.remove('border', 'border-danger');
+        const newEl = document.createElement('div');
+        newEl.innerHTML = parse(value[0]);
+        newEl.classList.add('row');
+        document.body.appendChild(newEl);
       } else {
         const input = document.querySelector('input');
         input.classList.add('border', 'border-danger');

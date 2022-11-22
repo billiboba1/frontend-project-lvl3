@@ -6,25 +6,25 @@ import build from './build.js';
 import parse from './parse.js';
 
 const state = {
-  posts: [],
+  posts: '',
   error: '',
   innerPosts: [],
 };
-
 
 build();
 
 const form = document.querySelector('.rss-form');
 const watchedState = onChange(state, (previousValue, value) => {
-  validation(value[0])
+  validation(value)
     .then((result) => {
       if (result) {
         const input = document.querySelector('input');
         input.classList.remove('border', 'border-danger');
-        const newEl = document.createElement('div');
-        newEl.innerHTML = parse(value[0]);
-        newEl.classList.add('row');
-        document.body.appendChild(newEl);
+        parse(value)
+          .then((data) => {
+            document.body.append(data);
+          });
+        console.log(document.body.innerHTML);
       } else {
         const input = document.querySelector('input');
         input.classList.add('border', 'border-danger');
@@ -39,7 +39,7 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
   if (!state.posts.includes(formData.get('text'))) {
-    watchedState.posts.unshift(formData.get('text'));
+    watchedState.posts = formData.get('text');
   }
   else {
     watchedState.posts.unshift('copy');

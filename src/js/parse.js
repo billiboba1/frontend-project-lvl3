@@ -1,25 +1,18 @@
 import axios from 'axios';
-const cors = require("cors");
 
-axios.defaults.headers = {
-  'Cache-Control': 'no-cache',
-  'Pragma': 'no-cache',
-  'Expires': '0',
-  "Access-Control-Allow-Origin": "http://localhost:8080",
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+const makeUrl = (givenUrl) => {
+  const firstPart = 'https://allorigins.hexlet.app/get?url=https%3A%2F%2F';
+  const secondPart = '%2F';
+  const thirdPart = '&disableCache=true';
+  const url = new URL (givenUrl);
+  console.log(firstPart + url.host + secondPart + url.pathname + thirdPart);
+  return firstPart + url.host + secondPart + url.pathname + thirdPart;
 }
-
-const config = {
-  "Access-Control-Allow-Origin": "http://localhost:8080",
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  "Access-Control-Allow-Headers": "Content-Type",
-}
-
 export default (url) => {
-  axios.get(url, config)
+  axios.get(makeUrl(url))
     .then((result) => {
-      console.log(result);
+      const data = result.data.contents;
+      console.log(data);
     })
     .catch((e) => {
       console.log(e);

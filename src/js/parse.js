@@ -17,12 +17,15 @@ export default (url) => {
       html.innerHTML = data;
       const title = html.querySelector('title');
       const description = html.querySelector('description');
-      const returnData = document.createElement('div');
-      returnData.innerHTML = `<h3 class = "h6 m-0">${title.innerHTML}</h3>
+      const feeds = `<h3 class = "h6 m-0">${title.innerHTML}</h3>
       <p class = "m-0 small text-black-50">${description.innerHTML}</p>`;
+      const posts = ``;
       returnData.classList.add('row');
       console.log(returnData);
-      return returnData;
+      return { 
+        feed: feeds,
+        post: posts,
+      };
     })
     .catch((e) => {
       console.log(e);

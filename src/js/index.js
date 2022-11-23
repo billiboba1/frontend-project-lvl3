@@ -4,6 +4,7 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
+import { addH2 } from './functions';
 
 const state = {
   posts: '',
@@ -22,7 +23,10 @@ const watchedState = onChange(state, (previousValue, value) => {
         input.classList.remove('border', 'border-danger');
         parse(value)
           .then((data) => {
-            document.body.append(data);
+            addH2(document);
+            console.log(data);
+            document.querySelector('.feeds').appendChild(data.feed);
+            document.querySelector('.posts').appendChild(data.post);
           });
         console.log(document.body.innerHTML);
       } else {
@@ -42,6 +46,6 @@ form.addEventListener('submit', (e) => {
     watchedState.posts = formData.get('text');
   }
   else {
-    watchedState.posts.unshift('copy');
+    watchedState.posts = 'copy';
   }
 });

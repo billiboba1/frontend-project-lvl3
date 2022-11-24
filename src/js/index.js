@@ -25,8 +25,11 @@ const watchedState = onChange(state, (previousValue, value) => {
           .then((data) => {
             addH2(document);
             console.log(data);
-            document.querySelector('.feeds').appendChild(data.feed);
-            document.querySelector('.posts').appendChild(data.post);
+            document.querySelector('.feeds').append(data.feed);
+            document.querySelector('.posts').append(data.post);
+          })
+          .catch((e) => {
+            console.log(e);
           });
         console.log(document.body.innerHTML);
       } else {

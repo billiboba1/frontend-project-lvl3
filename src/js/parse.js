@@ -5,7 +5,6 @@ const makeUrl = (givenUrl) => {
   const secondPart = '%2F';
   const thirdPart = '&disableCache=true';
   const url = new URL(givenUrl);
-  console.log(firstPart + url.host + secondPart + url.pathname + thirdPart);
   return firstPart + url.host + secondPart + url.pathname + thirdPart;
 };
 
@@ -15,19 +14,37 @@ export default (url) => {
       const data = result.data.contents;
       const html = document.createElement('data');
       html.innerHTML = data;
-      const title = html.querySelector('title');
-      const description = html.querySelector('description');
-      const feeds = `<h3 class = "h6 m-0">${title.innerHTML}</h3>
-      <p class = "m-0 small text-black-50">${description.innerHTML}</p>`;
-      const posts = ``;
-      returnData.classList.add('row');
-      console.log(returnData);
-      return { 
-        feed: feeds,
-        post: posts,
-      };
+      console.log(html);
+      console.log(html.querySelector('rss'));
+      if (html.querySelector('rss') === null) {
+        throw new Error('not rss');
+      }
+      return parsing(html);
     })
     .catch((e) => {
       console.log(e);
     });
+};
+
+const parsing = (html) => {
+  const title = html.querySelector('title');
+  const description = html.querySelector('description');
+  const titleContent = `<h3 class = "h6 m-0">${title.innerHTML}</h3>` +
+    `<p class = "m-0 small text-black-50">${description.innerHTML}</p>`;
+  const feeds = document.createElement('div');
+  feeds.innerHTML = titleContent;
+  const items = html.querySelectorAll('item');
+  console.log(items);
+  const posts = document.createElement('div');
+  items.forEach((item) => {
+    const div = document.createElement('div');
+    div.classList.add('row');
+    const a = document.createElement('a');
+    a.setAttribute('href', item.querySelector('link').innerHTML);
+    a.textContent = item.querySelector('title').innerHTML;
+    div.appendChild(a);
+    posts.appendChild(div);
+  });
+  console.log(posts);
+  return feeds;
 };

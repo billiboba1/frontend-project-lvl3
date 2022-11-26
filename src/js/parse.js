@@ -32,6 +32,7 @@ const parsing = (html) => {
   const titleContent = `<h3 class = "h6 m-0">${title.innerHTML}</h3>` +
     `<p class = "m-0 small text-black-50">${description.innerHTML}</p>`;
   const feeds = document.createElement('div');
+  feeds.classList.add('my-2');
   feeds.innerHTML = titleContent;
   const items = html.querySelectorAll('item');
   console.log(items);
@@ -40,11 +41,11 @@ const parsing = (html) => {
     const div = document.createElement('div');
     div.classList.add('row');
     const a = document.createElement('a');
-    a.setAttribute('href', item.querySelector('link').innerHTML);
+    a.setAttribute('href', item.querySelector('link').nextSibling.textContent);
+    a.classList.add('my-2');
     a.textContent = item.querySelector('title').innerHTML;
     div.appendChild(a);
     posts.appendChild(div);
   });
-  console.log(posts);
-  return feeds;
+  return { feeds, posts };
 };

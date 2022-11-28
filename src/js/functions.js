@@ -16,4 +16,8 @@ export const addH2 = (document) => {
     posts.append(innerPosts);
   }
   return document;
-}
+};
+
+export const deleteError = () => {
+
+};

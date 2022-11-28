@@ -4,7 +4,7 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
-import { addH2 } from './functions';
+import { addH2, deleteError } from './functions';
 
 const state = {
   posts: '',
@@ -19,20 +19,41 @@ const watchedState = onChange(state, (previousValue, value) => {
   validation(value)
     .then((result) => {
       if (result) {
+        const parsing = () => {
+          parse(value)
+            .then((data) => {
+              addH2(document);
+              document.querySelector('.innerFeeds').prepend(data.feeds);
+              document.querySelector('.innerPosts').prepend(data.posts);
+            })
+            .catch((e) => {
+              console.log(e);
+              //ошибка сети
+            });
+        };
+        const deleteAndParse = () => {
+          parse(value)
+            .then((data) => {
+              const innerPosts = document.querySelector('.innerPosts');
+              const posts = data.posts.querySelectorAll('div');
+              posts.forEach((newElement) => {
+                innerPosts.querySelectorAll('a').forEach((oldItem) => {
+                  if (oldItem.getAttribute('name') === newElement.firstChild.getAttribute('name')) {
+                    return false;
+                  }
+                });
+                innerPosts.prepend(newElement);
+              });
+            })
+            .catch((e) => {
+              console.log(e);
+              //ошибка сети
+            });
+        };
         const input = document.querySelector('input');
         input.classList.remove('border', 'border-danger');
-        parse(value)
-          .then((data) => {
-            addH2(document);
-            console.log(document.body);
-            console.log(data);
-            document.querySelector('.innerFeeds').prepend(data.feeds);
-            document.querySelector('.innerPosts').prepend(data.posts);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-        console.log(document.body.innerHTML);
+        parsing();
+        setInterval(deleteAndParse, 10000);
       } else {
         const input = document.querySelector('input');
         input.classList.add('border', 'border-danger');

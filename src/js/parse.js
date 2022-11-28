@@ -41,6 +41,7 @@ const parsing = (html) => {
     const div = document.createElement('div');
     div.classList.add('row');
     const a = document.createElement('a');
+    a.setAttribute('name', item.querySelector('title').innerHTML);
     a.setAttribute('href', item.querySelector('link').nextSibling.textContent);
     a.classList.add('my-2');
     a.textContent = item.querySelector('title').innerHTML;

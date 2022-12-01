@@ -42,7 +42,11 @@ const parsing = (html) => {
     div.classList.add('row');
     const a = document.createElement('a');
     a.setAttribute('title', item.querySelector('title').innerHTML);
-    a.setAttribute('descriprion', item.querySelector('description').innerHTML);
+    if (item.querySelector('description').querySelector('p') !== null) {
+      a.setAttribute('descriprion', item.querySelector('description').querySelector('p').innerHTML);
+    } else {
+      a.setAttribute('descriprion', item.querySelector('description').innerHTML);
+    }
     a.setAttribute('href', item.querySelector('link').nextSibling.textContent);
     a.classList.add('my-2', 'fw-bold');
     a.textContent = item.querySelector('title').innerHTML;

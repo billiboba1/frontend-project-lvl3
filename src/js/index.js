@@ -4,10 +4,11 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
-import { addH2, deleteError } from './functions';
+import { addH2, deleteError, redBorder } from './functions';
 
 export const state = {
   posts: '',
+  oldPosts: [],
   modalWindow: {
     previewPost: {},
     view: 'hidden',
@@ -17,21 +18,23 @@ export const state = {
 build();
 
 const form = document.querySelector('.rss-form');
-const watchedState = onChange(state, (path, previousValue, value) => {
+const watchedState = onChange(state, (path, value) => {
+  console.log(path, '\nvalue:', value);
   switch (path) {
     case 'posts':
       validation(value)
         .then((result) => {
           if (result) {
-            const parsing = () => {
+            const parsing = (value) => {
               parse(value)
                 .then((data) => {
                   addH2(document);
                   document.querySelector('.innerFeeds').prepend(data.feeds);
                   document.querySelector('.innerPosts').prepend(data.posts);
+                  addPreview();
                 })
                 .catch((e) => {
-                  console.log(e);
+                  console.log("error set'",e);
                   //ошибка сети
                 });
             };
@@ -43,7 +46,7 @@ const watchedState = onChange(state, (path, previousValue, value) => {
                   posts.forEach((newElement) => {
                     innerPosts.querySelectorAll('a').forEach((oldItem) => {
                       if (oldItem.getAttribute('title') === newElement.firstChild.getAttribute('title')) {
-                        return false;
+                        throw new Error('all old');
                       }
                     });
                     innerPosts.prepend(newElement);
@@ -52,21 +55,18 @@ const watchedState = onChange(state, (path, previousValue, value) => {
                 })
                 .catch((e) => {
                   console.log(e);
-                  //ошибка сети
                 });
             };
-            const input = document.querySelector('input');
-            input.classList.remove('border', 'border-danger');
-            parsing();
-            setInterval(deleteAndParse, 15000);
+            redBorder(document, 'remove');
+            parsing(value);
+            //setInterval(deleteAndParse, 5000);
           } else {
-            const input = document.querySelector('input');
-            input.classList.add('border', 'border-danger');
+            redBorder(document);
           }
         });
       break;
     case 'modalWindow.view':
-      const modal = document.querySelector('modal');
+      const modal = document.querySelector('.modal');
       if (value === 'show') {
         modal.classList.add('show');
       } else {
@@ -74,8 +74,8 @@ const watchedState = onChange(state, (path, previousValue, value) => {
       }
       break;
     case 'modalWindow.previewPost':
-      const title = document.querySelector('modal-title');
-      const description = document.querySelector('modal-description');
+      const title = document.querySelector('.modal-title');
+      const description = document.querySelector('.modal-description');
       title.innerHTML = value.title;
       description.innerHTML = value.descriprion;
       break;
@@ -94,8 +94,13 @@ const addPreview = () => {
   buttons.forEach((button) => {
     button.addEventListener('click', () => {
       const a = button.closest('div').querySelector('a');
-      watchedState.previewPost = { title: a.title, descriprion: a.descriprion };
-      watchedState.modalWindow = 'show';
+      console.log(a);
+      console.log(a.getAttribute('title'), a.getAttribute('descriprion'));
+      watchedState.modalWindow.previewPost = { 
+        title: a.getAttribute('title'),
+        descriprion: a.getAttribute('descriprion'),
+      };
+      watchedState.modalWindow.view = 'show';
     });
   });
 };
@@ -108,10 +113,10 @@ close.addEventListener('click', () => {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
-  if (!state.posts.includes(formData.get('text'))) {
+  if (!state.oldPosts.includes(formData.get('text'))) {
     watchedState.posts = formData.get('text');
-  }
-  else {
-    watchedState.posts = 'copy';
+    watchedState.oldPosts.push(formData.get('text'));
+  } else {
+    //copy
   }
 });

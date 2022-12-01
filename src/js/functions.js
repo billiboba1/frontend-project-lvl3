@@ -21,3 +21,7 @@ export const addH2 = (document) => {
 export const deleteError = () => {
 
 };
+
+export const addModal = () => {
+  
+};

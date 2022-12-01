@@ -41,11 +41,19 @@ const parsing = (html) => {
     const div = document.createElement('div');
     div.classList.add('row');
     const a = document.createElement('a');
-    a.setAttribute('name', item.querySelector('title').innerHTML);
+    a.setAttribute('title', item.querySelector('title').innerHTML);
+    a.setAttribute('descriprion', item.querySelector('description').innerHTML);
     a.setAttribute('href', item.querySelector('link').nextSibling.textContent);
-    a.classList.add('my-2');
+    a.classList.add('my-2', 'fw-bold');
     a.textContent = item.querySelector('title').innerHTML;
+    const button = document.createElement('button');
+    button.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'preview');
+    button.innerHTML = 'Предпросмотр';
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', '#myModal');
+    
     div.appendChild(a);
+    div.appendChild(button);
     posts.appendChild(div);
   });
   return { feeds, posts };

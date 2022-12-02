@@ -22,10 +22,6 @@ export const deleteError = () => {
 
 };
 
-export const addModal = () => {
-
-};
-
 export const redBorder = (document, toDo = 'make') => {
   const input = document.querySelector('input');
   if (toDo === 'make') {

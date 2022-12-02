@@ -25,7 +25,7 @@ const watchedState = onChange(state, (path, value) => {
       validation(value)
         .then((result) => {
           if (result) {
-            const parsing = (value) => {
+            const parsing = () => {
               parse(value)
                 .then((data) => {
                   addH2(document);
@@ -38,7 +38,7 @@ const watchedState = onChange(state, (path, value) => {
                   //ошибка сети
                 });
             };
-            const deleteAndParse = () => {
+            const newParsing = () => {
               parse(value)
                 .then((data) => {
                   const innerPosts = document.querySelector('.innerPosts');
@@ -58,8 +58,8 @@ const watchedState = onChange(state, (path, value) => {
                 });
             };
             redBorder(document, 'remove');
-            parsing(value);
-            //setInterval(deleteAndParse, 5000);
+            parsing();
+            //setInterval(newParsing, 5000);
           } else {
             redBorder(document);
           }
@@ -69,8 +69,10 @@ const watchedState = onChange(state, (path, value) => {
       const modal = document.querySelector('.modal');
       if (value === 'show') {
         modal.classList.add('show');
+        $('#myModal').modal('show');
       } else {
         modal.classList.remove('show');
+        $('#myModal').modal('hide');
       }
       break;
     case 'modalWindow.previewPost':
@@ -94,8 +96,8 @@ const addPreview = () => {
   buttons.forEach((button) => {
     button.addEventListener('click', () => {
       const a = button.closest('div').querySelector('a');
-      console.log(a);
-      console.log(a.getAttribute('title'), a.getAttribute('descriprion'));
+      a.classList.remove('fw-bold');
+      a.classList.add('fw-normal');
       watchedState.modalWindow.previewPost = { 
         title: a.getAttribute('title'),
         descriprion: a.getAttribute('descriprion'),

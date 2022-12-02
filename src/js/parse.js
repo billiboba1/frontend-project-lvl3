@@ -55,7 +55,6 @@ const parsing = (html) => {
     button.innerHTML = 'Предпросмотр';
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', '#myModal');
-    
     div.appendChild(a);
     div.appendChild(button);
     posts.appendChild(div);

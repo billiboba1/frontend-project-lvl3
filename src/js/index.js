@@ -69,10 +69,8 @@ const watchedState = onChange(state, (path, value) => {
       const modal = document.querySelector('.modal');
       if (value === 'show') {
         modal.classList.add('show');
-        $('#myModal').modal('show');
       } else {
         modal.classList.remove('show');
-        $('#myModal').modal('hide');
       }
       break;
     case 'modalWindow.previewPost':

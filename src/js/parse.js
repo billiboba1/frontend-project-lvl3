@@ -53,8 +53,8 @@ const parsing = (html) => {
     const button = document.createElement('button');
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'preview');
     button.innerHTML = 'Предпросмотр';
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', '#myModal');
+    button.setAttribute('data-bs-toggle', 'modal');
+    button.setAttribute('data-bs-target', '#myModal');
     div.appendChild(a);
     div.appendChild(button);
     posts.appendChild(div);

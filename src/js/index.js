@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
 import { addH2, deleteError, redBorder } from './functions';
+import i18next from 'i18next';
 
 export const state = {
   posts: '',
@@ -18,6 +19,7 @@ export const state = {
 build();
 
 const form = document.querySelector('.rss-form');
+const information = document.querySelector('.information');
 const watchedState = onChange(state, (path, value) => {
   console.log(path, '\nvalue:', value);
   switch (path) {
@@ -29,11 +31,13 @@ const watchedState = onChange(state, (path, value) => {
               parse(value)
                 .then((data) => {
                   addH2(document);
+                  information.innerHTML = i18next.t('');
                   document.querySelector('.innerFeeds').prepend(data.feeds);
                   document.querySelector('.innerPosts').prepend(data.posts);
                   addPreview();
                 })
                 .catch((e) => {
+                  information.innerHTML = i18next.t('error');
                   console.log("error set'",e);
                   //ошибка сети
                 });
@@ -61,6 +65,7 @@ const watchedState = onChange(state, (path, value) => {
             parsing();
             //setInterval(newParsing, 5000);
           } else {
+            information.innerHTML = i18next.t('invalid');
             redBorder(document);
           }
         });

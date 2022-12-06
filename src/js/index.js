@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
 import { addH2, deleteError, redBorder } from './functions';
-import i18next from 'i18next';
 
 export const state = {
   posts: '',
@@ -14,6 +13,7 @@ export const state = {
     previewPost: {},
     view: 'hidden',
   },
+  information: '',
 };
 
 build();
@@ -31,14 +31,14 @@ const watchedState = onChange(state, (path, value) => {
               parse(value)
                 .then((data) => {
                   addH2(document);
-                  information.innerHTML = i18next.t('');
+                  information.innerHTML = i18next.t('downloaded');
                   document.querySelector('.innerFeeds').prepend(data.feeds);
                   document.querySelector('.innerPosts').prepend(data.posts);
                   addPreview();
                 })
                 .catch((e) => {
-                  information.innerHTML = i18next.t('error');
-                  console.log("error set'",e);
+                  information.innerHTML = i18next.t('invalidRss');
+                  console.log("error invalid rss",e);
                   //ошибка сети
                 });
             };
@@ -65,7 +65,7 @@ const watchedState = onChange(state, (path, value) => {
             parsing();
             //setInterval(newParsing, 5000);
           } else {
-            information.innerHTML = i18next.t('invalid');
+            information.innerHTML = i18next.t('invalidUrl');
             redBorder(document);
           }
         });
@@ -84,6 +84,9 @@ const watchedState = onChange(state, (path, value) => {
       title.innerHTML = value.title;
       description.innerHTML = value.descriprion;
       break;
+    case 'information':
+      information.innerHTML = i18next.t(value);
+      redBorder(document);
     default:
       break;
   }
@@ -118,10 +121,12 @@ close.addEventListener('click', () => {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
-  if (!state.oldPosts.includes(formData.get('text'))) {
+  if (formData.get('text') === '') {
+    watchedState.information = 'notEmpty'
+  } else if (!state.oldPosts.includes(formData.get('text'))) {
     watchedState.posts = formData.get('text');
     watchedState.oldPosts.push(formData.get('text'));
   } else {
-    //copy
+    watchedState.information = 'copy';
   }
 });

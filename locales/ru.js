@@ -1,13 +1,9 @@
-import i18next from "i18next";
-
 const ru = {
     transation: {
-        rss: {
-            'downloaded': 'RSS успешно загружен',
-            'copy': 'RSS уже существует',
-            'invalid': 'Ресурс не содержит валидный RSS',
-        },
-        'invalid': 'Ссылка должна быть валидным URL',
+        'downloaded': 'RSS успешно загружен',
+        'copy': 'RSS уже существует',
+        'invalidRss': 'Ресурс не содержит валидный RSS',
+        'invalidUrl': 'Ссылка должна быть валидным URL',
         'notEmpty': 'Не должно быть пустым',
         'error': 'Ошибка сети',
         'view': 'Просмотр',

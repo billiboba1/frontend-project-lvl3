@@ -39,7 +39,7 @@ const parsing = (html) => {
   const posts = document.createElement('div');
   items.forEach((item) => {
     const div = document.createElement('div');
-    div.classList.add('row');
+    div.classList.add('row', 'my-2');
     const a = document.createElement('a');
     a.setAttribute('title', item.querySelector('title').innerHTML);
     if (item.querySelector('description').querySelector('p') !== null) {
@@ -48,7 +48,7 @@ const parsing = (html) => {
       a.setAttribute('descriprion', item.querySelector('description').innerHTML);
     }
     a.setAttribute('href', item.querySelector('link').nextSibling.textContent);
-    a.classList.add('my-2', 'fw-bold');
+    a.classList.add('fw-bold');
     a.textContent = item.querySelector('title').innerHTML;
     const button = document.createElement('button');
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'preview');

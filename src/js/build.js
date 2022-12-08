@@ -1,4 +1,3 @@
-import ru from '../../locales/ru.js';
 import i18next from 'i18next';
 import * as yup from 'yup';
 
@@ -7,8 +6,18 @@ export default () => {
     lng: 'ru',
     debug: true,
     resources: {
-      ru,
-    }
+      ru: {
+        translation: {
+          downloaded: 'RSS успешно загружен',
+          copy: 'RSS уже существует',
+          invalidRss: 'Ресурс не содержит валидный RSS',
+          invalidUrl: 'Ссылка должна быть валидным URL',
+          notEmpty: 'Не должно быть пустым',
+          error: 'Ошибка сети',
+          view: 'Просмотр',
+        },
+      },
+    },
   });
 
   yup.setLocale({

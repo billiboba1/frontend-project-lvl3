@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
 import { addH2, deleteError, redBorder } from './functions';
+import i18next from 'i18next';
 
 export const state = {
   posts: '',
@@ -22,6 +23,7 @@ const form = document.querySelector('.rss-form');
 const information = document.querySelector('.information');
 const watchedState = onChange(state, (path, value) => {
   console.log(path, '\nvalue:', value);
+  console.log(i18next.exists('downloaded'), i18next.t('downloaded'));
   switch (path) {
     case 'posts':
       validation(value)
@@ -32,13 +34,17 @@ const watchedState = onChange(state, (path, value) => {
                 .then((data) => {
                   addH2(document);
                   information.innerHTML = i18next.t('downloaded');
+                  information.classList.remove('text-danger');
+                  information.classList.add('text-success');
                   document.querySelector('.innerFeeds').prepend(data.feeds);
                   document.querySelector('.innerPosts').prepend(data.posts);
                   addPreview();
                 })
                 .catch((e) => {
                   information.innerHTML = i18next.t('invalidRss');
-                  console.log("error invalid rss",e);
+                  information.classList.remove('text-success');
+                  information.classList.add('text-danger');
+                  console.log("error invalid rss", e);
                   //ошибка сети
                 });
             };
@@ -66,6 +72,8 @@ const watchedState = onChange(state, (path, value) => {
             //setInterval(newParsing, 5000);
           } else {
             information.innerHTML = i18next.t('invalidUrl');
+            information.classList.remove('text-success');
+            information.classList.add('text-danger');
             redBorder(document);
           }
         });
@@ -86,6 +94,8 @@ const watchedState = onChange(state, (path, value) => {
       break;
     case 'information':
       information.innerHTML = i18next.t(value);
+      information.classList.remove('text-success');
+      information.classList.add('text-danger');
       redBorder(document);
     default:
       break;
@@ -104,7 +114,7 @@ const addPreview = () => {
       const a = button.closest('div').querySelector('a');
       a.classList.remove('fw-bold');
       a.classList.add('fw-normal');
-      watchedState.modalWindow.previewPost = { 
+      watchedState.modalWindow.previewPost = {
         title: a.getAttribute('title'),
         descriprion: a.getAttribute('descriprion'),
       };

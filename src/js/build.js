@@ -19,7 +19,6 @@ export default () => {
       },
     },
   });
-
   yup.setLocale({
     mixed: {
       url: 'it should be a valid URL',

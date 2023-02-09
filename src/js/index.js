@@ -40,6 +40,7 @@ const watchedState = onChange(state, (path, value) => {
                   addPreview();
                 })
                 .catch((e) => {
+                  console.log(e);
                   information.innerHTML = i18next.t('invalidRss');
                   information.classList.remove('text-success');
                   information.classList.add('text-danger');

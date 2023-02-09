@@ -23,7 +23,6 @@ const form = document.querySelector('.rss-form');
 const information = document.querySelector('.information');
 const watchedState = onChange(state, (path, value) => {
   console.log(path, '\nvalue:', value);
-  console.log(i18next.exists('downloaded'), i18next.t('downloaded'));
   switch (path) {
     case 'posts':
       validation(value)

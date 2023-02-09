@@ -15,7 +15,6 @@ export default (url) => {
       const html = document.createElement('data');
       html.innerHTML = data;
       console.log(html);
-      console.log(html.querySelector('rss'));
       if (html.querySelector('rss') === null) {
         throw new Error('not rss');
       }

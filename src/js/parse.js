@@ -9,8 +9,8 @@ const makeUrl = (givenUrl) => {
 };
 
 export default (url) => {
-  console.log(url, makeUrl(url), axios.get(makeUrl(url)));
-  return axios.get(makeUrl(url))
+  console.log(typeof(url), url, makeUrl(url), axios.get(makeUrl(url)));
+  return axios.get(makeUrl(String(url)))
     .then((result) => {
       console.log('axios.get success');
       const data = result.data.contents;

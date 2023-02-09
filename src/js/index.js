@@ -57,7 +57,7 @@ const watchedState = onChange(state, (path, value) => {
                   const innerPosts = document.querySelector('.innerPosts');
                   console.log(data.feeds);
                   console.log(document.querySelector('.innerFeeds'), data.feeds.innerHTML);
-                  if (document.querySelector('.innerFeeds').length === 0) {
+                  if (document.querySelector('.feeds').classList.includes('hidden')) {
                     document.querySelector('innerFeeds').prepend(data.feeds);
                   }
                   const posts = data.posts.querySelectorAll('div');

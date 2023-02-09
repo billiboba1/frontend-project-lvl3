@@ -4,7 +4,7 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
-import { addH2, deleteError, redBorder } from './functions';
+import { addH2, redBorder } from './functions';
 import i18next from 'i18next';
 
 export const state = {

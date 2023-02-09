@@ -20,10 +20,6 @@ export const addH2 = (document) => {
   return document;
 };
 
-export const deleteError = () => {
-
-};
-
 export const redBorder = (document, toDo = 'make') => {
   const input = document.querySelector('input');
   if (toDo === 'make') {

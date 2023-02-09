@@ -9,7 +9,7 @@ const makeUrl = (givenUrl) => {
 };
 
 export default (url) => {
-  console.log(url, makeUrl(url));
+  console.log(url, makeUrl(url), axios.get(makeUrl(url)));
   return axios.get(makeUrl(url))
     .then((result) => {
       console.log('axios.get success');

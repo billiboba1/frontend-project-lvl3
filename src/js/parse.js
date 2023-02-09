@@ -9,8 +9,10 @@ const makeUrl = (givenUrl) => {
 };
 
 export default (url) => {
+  console.log(url, makeUrl);
   return axios.get(makeUrl(url))
     .then((result) => {
+      console.log('axios.get sucess');
       const data = result.data.contents;
       const html = document.createElement('data');
       html.innerHTML = data;

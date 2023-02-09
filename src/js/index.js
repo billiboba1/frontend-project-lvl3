@@ -51,7 +51,13 @@ const watchedState = onChange(state, (path, value) => {
             const newParsing = () => {
               parse(value)
                 .then((data) => {
+                  console.log(data);
                   const innerPosts = document.querySelector('.innerPosts');
+                  console.log(data.feeds);
+                  console.log(document.querySelector('.innerFeeds'), data.feeds.innerHTML);
+                  if (document.querySelector('.innerFeeds').length === 0) {
+                    document.querySelector('innerFeeds').prepend(data.feeds);
+                  }
                   const posts = data.posts.querySelectorAll('div');
                   posts.forEach((newElement) => {
                     innerPosts.querySelectorAll('a').forEach((oldItem) => {
@@ -69,7 +75,7 @@ const watchedState = onChange(state, (path, value) => {
             };
             redBorder(document, 'remove');
             parsing();
-            //setInterval(newParsing, 5000);
+            setInterval(newParsing, 5000);
           } else {
             information.innerHTML = i18next.t('invalidUrl');
             information.classList.remove('text-success');

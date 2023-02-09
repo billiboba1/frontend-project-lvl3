@@ -18,14 +18,16 @@ export default (url) => {
       if (html.querySelector('rss') === null) {
         throw new Error('not rss');
       }
+      console.log('parsing 1');
       return parsing(html);
     })
     .catch((e) => {
-      console.log(e);
+      console.log('axios error', e);
     });
 };
 
 const parsing = (html) => {
+  console.log('parsing 2');
   const title = html.querySelector('title');
   const description = html.querySelector('description');
   const titleContent = `<h3 class = "h6 m-0">${title.innerHTML}</h3>` +

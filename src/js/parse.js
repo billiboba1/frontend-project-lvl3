@@ -24,7 +24,6 @@ export default (url) => {
       return parsing(html);
     })
     .catch((e) => {
-      console.log(e);
       throw e;
     });
 };

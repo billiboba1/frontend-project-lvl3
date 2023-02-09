@@ -54,11 +54,14 @@ const watchedState = onChange(state, (path, value) => {
               parse(value)
                 .then((data) => {
                   console.log(data);
+                  if (document.querySelector('.feeds').classList.contains('hidden')) {
+                    addH2(document);
+                  }
                   const innerPosts = document.querySelector('.innerPosts');
                   console.log(data.feeds);
                   console.log(document.querySelector('.innerFeeds'), data.feeds.innerHTML);
-                  if (document.querySelector('.feeds').classList.includes('hidden')) {
-                    document.querySelector('innerFeeds').prepend(data.feeds);
+                  if (document.querySelector('.innerFeeds').length === 0) {
+                    document.querySelector('.innerFeeds').prepend(data.feeds);
                   }
                   const posts = data.posts.querySelectorAll('div');
                   posts.forEach((newElement) => {

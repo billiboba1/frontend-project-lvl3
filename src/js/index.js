@@ -31,6 +31,7 @@ const watchedState = onChange(state, (path, value) => {
             const parsing = () => {
               parse(value)
                 .then((data) => {
+                  console.log(data);
                   addH2(document);
                   information.innerHTML = i18next.t('downloaded');
                   information.classList.remove('text-danger');

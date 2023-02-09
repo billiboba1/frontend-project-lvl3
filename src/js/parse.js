@@ -9,10 +9,10 @@ const makeUrl = (givenUrl) => {
 };
 
 export default (url) => {
-  console.log(url, makeUrl);
+  console.log(url, makeUrl(url));
   return axios.get(makeUrl(url))
     .then((result) => {
-      console.log('axios.get sucess');
+      console.log('axios.get success');
       const data = result.data.contents;
       const html = document.createElement('data');
       html.innerHTML = data;
@@ -24,7 +24,8 @@ export default (url) => {
       return parsing(html);
     })
     .catch((e) => {
-      console.log('axios error', e);
+      console.log(e);
+      throw e;
     });
 };
 

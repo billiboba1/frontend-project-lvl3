@@ -4,7 +4,7 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import build from './build.js';
 import parse from './parse.js';
-import { addH2, redBorder } from './functions';
+import { addH2, clearInput, redBorder } from './functions';
 import i18next from 'i18next';
 
 export const state = {
@@ -31,21 +31,20 @@ const watchedState = onChange(state, (path, value) => {
             const parsing = () => {
               parse(value)
                 .then((data) => {
-                  console.log('data:');
-                  console.log(data);
                   addH2(document);
                   information.innerHTML = i18next.t('downloaded');
                   information.classList.remove('text-danger');
                   information.classList.add('text-success');
                   document.querySelector('.innerFeeds').prepend(data.feeds);
                   document.querySelector('.innerPosts').prepend(data.posts);
+                  clearInput(document);
                   addPreview();
                 })
                 .catch((e) => {
-                  console.log(e);
                   information.innerHTML = i18next.t('invalidRss');
                   information.classList.remove('text-success');
                   information.classList.add('text-danger');
+                  clearInput(document);
                   console.log("error invalid rss", e);
                   //ошибка сети
                 });
@@ -53,16 +52,11 @@ const watchedState = onChange(state, (path, value) => {
             const newParsing = () => {
               parse(value)
                 .then((data) => {
-                  console.log(data);
                   if (document.querySelector('.feeds').classList.contains('hidden')) {
                     addH2(document);
-                  }
-                  const innerPosts = document.querySelector('.innerPosts');
-                  console.log(data.feeds);
-                  console.log(document.querySelector('.innerFeeds'), data.feeds.innerHTML);
-                  if (document.querySelector('.innerFeeds').length === 0) {
                     document.querySelector('.innerFeeds').prepend(data.feeds);
                   }
+                  const innerPosts = document.querySelector('.innerPosts');
                   const posts = data.posts.querySelectorAll('div');
                   posts.forEach((newElement) => {
                     innerPosts.querySelectorAll('a').forEach((oldItem) => {
@@ -85,6 +79,7 @@ const watchedState = onChange(state, (path, value) => {
             information.innerHTML = i18next.t('invalidUrl');
             information.classList.remove('text-success');
             information.classList.add('text-danger');
+            clearInput(document);
             redBorder(document);
           }
         });

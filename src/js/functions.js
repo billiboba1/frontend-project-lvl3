@@ -29,3 +29,11 @@ export const redBorder = (document, toDo = 'make') => {
   input.classList.remove('border', 'border-danger');
   return 'removed';
 };
+
+export const clearInput = (document) => {
+  const input = document.querySelector('input');
+  console.log(input.value);
+  input.value = '';
+  console.log(input.value);
+  return 'clear';
+}

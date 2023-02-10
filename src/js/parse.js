@@ -7,15 +7,13 @@ const proxyUrl = (givenUrl) => {
 export default (url) => {
   return axios.get(proxyUrl(url))
     .then((result) => {
-      console.log('axios.get success', result.contents);
+      console.log('axios.get success');
       const data = result.data.contents;
       const html = document.createElement('data');
       html.innerHTML = data;
-      console.log(html);
       if (html.querySelector('rss') === null) {
         throw new Error('not rss');
       }
-      console.log('parsing 1');
       return parsing(html);
     })
     .catch((e) => {
@@ -24,7 +22,6 @@ export default (url) => {
 };
 
 const parsing = (html) => {
-  console.log('parsing 2');
   const title = html.querySelector('title');
   const description = html.querySelector('description');
   const titleContent = `<h3 class = "h6 m-0">${title.innerHTML}</h3>` +
@@ -33,7 +30,6 @@ const parsing = (html) => {
   feeds.classList.add('my-2');
   feeds.innerHTML = titleContent;
   const items = html.querySelectorAll('item');
-  console.log(items);
   const posts = document.createElement('div');
   items.forEach((item) => {
     const div = document.createElement('div');

@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 const proxyUrl = (givenUrl) => {
-  return `https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${encodeURIComponent(givenUrl)}`;
+  return `https://allorigins.hexlet.app/get?url=${givenUrl}&disableCache=true`;
 };
 
 export default (url) => {
   return axios.get(proxyUrl(url))
     .then((result) => {
-      console.log('axios.get success');
+      console.log('axios.get success', result.contents);
       const data = result.data.contents;
       const html = document.createElement('data');
       html.innerHTML = data;

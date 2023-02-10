@@ -5,12 +5,12 @@ const makeUrl = (givenUrl) => {
   const secondPart = '%2F';
   const thirdPart = '&disableCache=true';
   const url = new URL(givenUrl);
-  return firstPart + url.host + secondPart + url.pathname + thirdPart;
+  return new URL(firstPart + url.host + secondPart + url.pathname + thirdPart);
 };
 
 export default (url) => {
   console.log(typeof(url), url, makeUrl(url), axios.get(makeUrl(url)));
-  return axios.get(makeUrl(String(url)))
+  return axios.get(makeUrl(url))
     .then((result) => {
       console.log('axios.get success');
       const data = result.data.contents;

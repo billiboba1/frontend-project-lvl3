@@ -1,16 +1,11 @@
 import axios from 'axios';
 
-const makeUrl = (givenUrl) => {
-  const firstPart = 'https://allorigins.hexlet.app/get?url=https%3A%2F%2F';
-  const secondPart = '%2F';
-  const thirdPart = '&disableCache=true';
-  const url = new URL(givenUrl);
-  return new URL(firstPart + url.host + secondPart + url.pathname + thirdPart);
+const proxyUrl = (givenUrl) => {
+  return `https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${encodeURIComponent(givenUrl)}`;
 };
 
 export default (url) => {
-  console.log(typeof(url), url, makeUrl(url), axios.get(makeUrl(url)));
-  return axios.get(makeUrl(url))
+  return axios.get(proxyUrl(url))
     .then((result) => {
       console.log('axios.get success');
       const data = result.data.contents;

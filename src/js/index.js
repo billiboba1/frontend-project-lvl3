@@ -17,6 +17,10 @@ export const state = {
   information: '',
 };
 
+const myState = {
+  information: '',
+}
+
 build();
 
 const form = document.querySelector('.rss-form');
@@ -33,10 +37,10 @@ const watchedState = onChange(state, (path, value) => {
                 .then((data) => {
                   console.log('data:', data);
                   if (data === 'notRss') {
-                    information.innerHTML = i18next.t('invalidRss');
-                    throw new Error('not rss');
+                    myState.information = 'invalidRss';
+                    throw new Error('invalidRss');
                   } else if (data === 'networkError') {
-                    information.innerHTML = i18next.t('networkError');
+                    myState.information = 'networkError';
                     throw new Error('networkError');
                   }
                   addH2(document);
@@ -49,6 +53,11 @@ const watchedState = onChange(state, (path, value) => {
                   addPreview();
                 })
                 .catch((e) => {
+                  if (myState.information === 'invalidRss') {
+                    information.innerHTML = i18next.t('invalidRss');
+                  } else {
+                    information.innerHTML = i18next.t('networkError');
+                  }
                   information.classList.remove('text-success');
                   information.classList.add('text-danger');
                   clearInput(document);

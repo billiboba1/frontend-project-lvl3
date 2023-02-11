@@ -31,6 +31,13 @@ const watchedState = onChange(state, (path, value) => {
             const parsing = () => {
               parse(value)
                 .then((data) => {
+                  if (data === 'notRss') {
+                    information.innerHTML = i18next.t('invalidRss');
+                    throw new Error('not rss');
+                  } else if (data === 'networkError') {
+                    information.innerHTML = i18next.t('networkError');
+                    throw new Error('networkError');
+                  }
                   addH2(document);
                   information.innerHTML = i18next.t('downloaded');
                   information.classList.remove('text-danger');
@@ -41,17 +48,20 @@ const watchedState = onChange(state, (path, value) => {
                   addPreview();
                 })
                 .catch((e) => {
-                  information.innerHTML = i18next.t('invalidRss');
                   information.classList.remove('text-success');
                   information.classList.add('text-danger');
                   clearInput(document);
-                  console.log("error invalid rss", e);
                   //ошибка сети
                 });
             };
             const newParsing = () => {
               parse(value)
                 .then((data) => {
+                  if (data === 'notRss') {
+                    throw new Error('not rss');
+                  } else if (data === 'networkError') {
+                    throw new Error('networkError');
+                  }
                   if (document.querySelector('.feeds').classList.contains('hidden')) {
                     addH2(document);
                     document.querySelector('.innerFeeds').prepend(data.feeds);

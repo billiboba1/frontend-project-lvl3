@@ -13,7 +13,7 @@ export default () => {
           invalidRss: 'Ресурс не содержит валидный RSS',
           invalidUrl: 'Ссылка должна быть валидным URL',
           notEmpty: 'Не должно быть пустым',
-          error: 'Ошибка сети',
+          networkError: 'Ошибка сети',
           view: 'Просмотр',
         },
       },

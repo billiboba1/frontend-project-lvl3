@@ -11,8 +11,12 @@ export default (url) => {
       const data = result.data.contents;
       const html = document.createElement('data');
       html.innerHTML = data;
-      if (html.querySelector('rss') === null) {
-        throw new Error('not rss');
+      console.log(html);
+      if (url.split('.')[url.split('.').length - 1] !== 'rss') {
+        console.log(url.split('.')[url.split('.').length - 1]);
+        return 'notRss';
+      } else if (html.querySelector('rss') === null) {
+        return 'networkError';
       }
       return parsing(html);
     })

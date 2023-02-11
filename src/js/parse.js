@@ -11,7 +11,7 @@ export default (url) => {
       const data = result.data.contents;
       const html = document.createElement('data');
       html.innerHTML = data;
-      console.log(html);
+      console.log('html:', html);
       if (url.split('.')[url.split('.').length - 1] !== 'rss') {
         console.log(url.split('.')[url.split('.').length - 1]);
         return 'notRss';

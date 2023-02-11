@@ -31,6 +31,7 @@ const watchedState = onChange(state, (path, value) => {
             const parsing = () => {
               parse(value)
                 .then((data) => {
+                  console.log('data:', data);
                   if (data === 'notRss') {
                     information.innerHTML = i18next.t('invalidRss');
                     throw new Error('not rss');

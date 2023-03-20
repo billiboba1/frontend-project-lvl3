@@ -115,6 +115,9 @@ const watchedState = onChange(state, (path, value) => {
     case 'modalWindow.previewPost':
       const title = document.querySelector('.modal-title');
       const description = document.querySelector('.modal-description');
+      const linkElement = document.querySelector('.full-article');
+      console.log(value, value.title);
+      linkElement.setAttribute('href', value.link)
       title.innerHTML = value.title;
       description.innerHTML = value.descriprion;
       break;
@@ -140,7 +143,9 @@ const addPreview = () => {
       const a = button.closest('div').querySelector('a');
       a.classList.remove('fw-bold');
       a.classList.add('fw-normal');
+      console.log(a.getAttribute('href'));
       watchedState.modalWindow.previewPost = {
+        link: a.getAttribute('href'),
         title: a.getAttribute('title'),
         descriprion: a.getAttribute('descriprion'),
       };

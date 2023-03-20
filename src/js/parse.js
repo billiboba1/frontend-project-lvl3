@@ -12,12 +12,10 @@ export default (url) => {
       const html = document.createElement('data');
       html.innerHTML = data;
       console.log('html:', html);
-      if (url.split('.')[url.split('.').length - 1] !== 'rss') {
-        console.log(url.split('.')[url.split('.').length - 1]);
+      if (html.querySelector('rss') === null) {
         return 'notRss';
-      } else if (html.querySelector('rss') === null) {
-        return 'networkError';
       }
+      console.log('pars');
       return parsing(html);
     })
     .catch((e) => {
@@ -26,8 +24,10 @@ export default (url) => {
 };
 
 const parsing = (html) => {
+  console.log('parsing');
   const title = html.querySelector('title');
   const description = html.querySelector('description');
+  console.log(title, description);
   const titleContent = `<h3 class = "h6 m-0">${title.innerHTML}</h3>` +
     `<p class = "m-0 small text-black-50">${description.innerHTML}</p>`;
   const feeds = document.createElement('div');
